@@ -1,16 +1,22 @@
 package telegram4s.models
 
-/** You can provide an animation for your game so that it looks stylish in chats (check out Lumberjack for an example).
- * This object represents an animation file to be displayed in the message containing a game.
- *
- * @param fileId   String Unique file identifier
- * @param thumb    PhotoSize Optional. Animation thumbnail as defined by sender
- * @param fileName String Optional. Original animation filename as defined by sender
- * @param mimeType String Optional. MIME type of the file as defined by sender
- * @param fileSize Integer Optional. File size
- */
-case class Animation(fileId: String,
-                     thumb: Option[PhotoSize] = None,
-                     fileName: Option[String] = None,
-                     mimeType: Option[String] = None,
-                     fileSize: Option[Int] = None)
+/**
+  * Represents an animation file (GIF or H.264/MPEG-4 AVC video without sound).
+  *
+  * @param fileId   Unique identifier for this file
+  * @param width    Video width as defined by sender
+  * @param height   Video height as defined by sender
+  * @param duration Duration of the video in seconds as defined by sender
+  * @param thumb    Animation thumbnail as defined by sender
+  * @param fileName Original animation filename as defined by sender
+  * @param mimeType Mime type of a file as defined by sender
+  * @param fileSize File size
+  */
+final case class Animation(fileId: String,
+                           width: Int,
+                           height: Int,
+                           duration: Int,
+                           thumb: Option[PhotoSize],
+                           fileName: Option[String],
+                           mimeType: Option[String],
+                           fileSize: Option[Int])

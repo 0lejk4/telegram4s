@@ -1,5 +1,7 @@
 package telegram4s.models
 
+import io.circe.{Encoder, Json}
+
 /** This object represents the contents of a file to be uploaded.
  * Must be posted using multipart/form-data in the usual way that files are uploaded via the browser.
  *
@@ -12,17 +14,32 @@ package telegram4s.models
  * It is not possible to resend thumbnails.
  * Resending a photo by file_id will send all of its sizes.
  */
-trait InputFile
+sealed trait InputFile
 
 object InputFile {
 
-  final case class FileId(fileId: String) extends InputFile
+  /**
+   * File existing in the telegram or on the web
+   *
+   * @param key telegram FileId or URL
+   */
+  final case class Existing(key: String) extends InputFile
+
+  /**
+   * File which should be uploaded
+   */
+  final case class Upload(filename: String, contents: Array[Byte]) extends InputFile
 
   final case class Path(path: java.nio.file.Path) extends InputFile
 
-  final case class Contents(filename: String, contents: Array[Byte]) extends InputFile
+  def fromUrl(url: String): InputFile = Existing(url)
+  def fromFileId(fileId: String): InputFile = Existing(fileId)
+  def fromBytes(name: String, bytes: Array[Byte]): Upload = Upload(name, bytes)
+  def fromPath(path: java.nio.file.Path): Path = Path(path)
 
-  def apply(fileId: String): InputFile = FileId(fileId)
-  def apply(path: java.nio.file.Path): InputFile = Path(path)
-  def apply(filename: String, contents: Array[Byte]): InputFile = Contents(filename, contents)
+  implicit def inputFileEncoder: Encoder[InputFile] = Encoder.instance[InputFile] {
+    case InputFile.Upload(_, _)     => Json.Null
+    case InputFile.Existing(handle) => Json.fromString(handle)
+    case InputFile.Path(_)          => Json.Null
+  }
 }

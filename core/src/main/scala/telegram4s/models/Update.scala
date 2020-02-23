@@ -1,48 +1,52 @@
 package telegram4s.models
 
-/** This object represents an incoming update.
- * At most one of the optional parameters can be present in any given update.
- *
- * @param updateId           The update's unique identifier.
- *                           Update identifiers start from a certain positive number and increase sequentially.
- *                           This ID becomes especially handy if you're using Webhooks, since it allows you to ignore
- *                           repeated updates or to restore the correct update sequence, should they get out of order.
- * @param message            Optional New incoming message of any kind - text, photo, sticker, etc.
- * @param editedMessage      Optional. New version of a message that is known to the bot and was edited
- * @param channelPost        Message Optional. New incoming channel post of any kind - text, photo, sticker, etc.
- * @param editedChannelPost  Message Optional. New version of a channel post that is known to the bot and was edited
- * @param inlineQuery        InlineQuery Optional New incoming inline query
- * @param chosenInlineResult ChosenInlineResult Optional The result of a inline query that was chosen by a user and sent to their chat partner
- * @param callbackQuery      Optional New incoming callback query
- * @param shippingQuery      ShippingQuery Optional. New incoming shipping query. Only for invoices with flexible price
- * @param preCheckoutQuery   PreCheckoutQuery Optional. New incoming pre-checkout query. Contains full information about checkout
- * @param poll               Poll Optional. New poll state. Bots receive only updates about polls, which are sent or stopped by the bot
- */
-case class Update(updateId: Long,
-                  message: Option[Message] = None,
-                  editedMessage: Option[Message] = None,
-                  channelPost: Option[Message] = None,
-                  editedChannelPost: Option[Message] = None,
-                  inlineQuery: Option[InlineQuery] = None,
-                  chosenInlineResult: Option[ChosenInlineResult] = None,
-                  callbackQuery: Option[CallbackQuery] = None,
-                  shippingQuery: Option[ShippingQuery] = None,
-                  preCheckoutQuery: Option[PreCheckoutQuery] = None,
-                  poll: Option[Poll] = None) {
+import telegram4s.marshalling.codecs._
+import telegram4s.models.messages.TelegramMessage
+import cats.syntax.functor._
+import io.circe.Decoder
+import io.circe.generic.auto._
+import io.circe.generic.semiauto.deriveDecoder
 
-  require(
-    Seq[Option[_]](
-      message,
-      editedMessage,
-      channelPost,
-      editedChannelPost,
-      inlineQuery,
-      chosenInlineResult,
-      callbackQuery,
-      shippingQuery,
-      preCheckoutQuery,
-      poll
-    ).count(_.isDefined) == 1,
-    "Exactly one of the optional fields should be used"
-  )
+sealed trait Update {
+  def updateId: Long
 }
+
+object Update {
+
+  final case class Unknown(updateId: Long) extends Update
+
+  implicit val updateDecoder: Decoder[Update] =
+    List[Decoder[Update]](
+      deriveDecoder[MessageReceived].widen,
+      deriveDecoder[MessageEdited].widen,
+      deriveDecoder[ChannelPost].widen,
+      deriveDecoder[ChannelPostEdited].widen,
+      deriveDecoder[PollUpdated].widen,
+      deriveDecoder[InlineQueryReceived].widen,
+      deriveDecoder[InlineResultSelected].widen,
+      deriveDecoder[CallbackButtonSelected].widen,
+      deriveDecoder[ShippingQueryReceived].widen,
+      deriveDecoder[PreCheckoutQueryReceived].widen,
+      deriveDecoder[Unknown].widen
+    ).reduceLeft(_.or(_)).camelCase
+}
+
+final case class MessageReceived(updateId: Long, message: TelegramMessage) extends Update
+
+final case class MessageEdited(updateId: Long, editedMessage: TelegramMessage) extends Update
+
+final case class ChannelPost(updateId: Long, channelPost: TelegramMessage) extends Update
+
+final case class ChannelPostEdited(updateId: Long, editedChannelPost: TelegramMessage) extends Update
+
+final case class InlineQueryReceived(updateId: Long, inlineQuery: InlineQuery) extends Update
+
+final case class InlineResultSelected(updateId: Long, chosenInlineResult: ChosenInlineResult) extends Update
+
+final case class CallbackButtonSelected(updateId: Long, callbackQuery: CallbackQuery) extends Update
+
+final case class ShippingQueryReceived(updateId: Long, shippingQuery: ShippingQuery) extends Update
+
+final case class PreCheckoutQueryReceived(updateId: Long, preCheckoutQuery: PreCheckoutQuery) extends Update
+
+final case class PollUpdated(updateId: Long, poll: Poll) extends Update
