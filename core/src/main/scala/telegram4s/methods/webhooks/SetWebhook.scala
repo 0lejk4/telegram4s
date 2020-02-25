@@ -1,6 +1,7 @@
 package telegram4s.methods.webhooks
 
-import io.circe.generic.auto._
+import io.circe._
+import io.circe.generic.semiauto._
 import telegram4s.methods.TelegramMethod
 import telegram4s.models.InputFile
 import telegram4s.models.UpdateType.UpdateType
@@ -44,6 +45,7 @@ final case class SetWebhook(url: String,
                             allowedUpdates: Option[Seq[UpdateType]] = None)
 
 object SetWebhook {
+  implicit val encoder: Encoder[SetWebhook] = deriveEncoder[SetWebhook]
   implicit val method: TelegramMethod[SetWebhook, Boolean] =
     TelegramMethod[SetWebhook, Boolean](
       name = "SetWebhook",

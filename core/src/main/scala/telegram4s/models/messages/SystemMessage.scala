@@ -1,10 +1,9 @@
 package telegram4s.models.messages
 
-import telegram4s.models.{Chat, PhotoSize, SuccessfulPayment, User}
 import cats.syntax.functor._
 import io.circe.Decoder
-import io.circe.generic.auto._
 import io.circe.generic.semiauto.deriveDecoder
+import telegram4s.models.{Chat, PhotoSize, SuccessfulPayment, User}
 
 sealed trait SystemMessage extends TelegramMessage with Product
 
@@ -31,14 +30,18 @@ object SystemMessage {
 final case class MessagePinned(messageId: Int, chat: Chat, date: Int, pinnedMessage: TelegramMessage) extends SystemMessage
 
 final case class ChannelCreated(messageId: Int, chat: Chat, date: Int, channelChatCreated: Boolean)
-    extends SystemMessage
+  extends SystemMessage
 
 final case class ChatMemberAdded(messageId: Int, chat: Chat, date: Int, newChatMembers: Seq[User]) extends SystemMessage
 
 final case class ChatMemberLeft(messageId: Int, chat: Chat, date: Int, leftChatMember: User) extends SystemMessage
 
 final case class ChatPhotoChanged(messageId: Int, chat: Chat, date: Int, newChatPhoto: Seq[PhotoSize])
-    extends SystemMessage
+  extends SystemMessage
+
+object ChatPhotoChanged {
+  implicit val decoder: Decoder[ChatPhotoChanged] = deriveDecoder[ChatPhotoChanged]
+}
 
 final case class ChatPhotoDeleted(messageId: Int, chat: Chat, date: Int, deleteChatPhoto: Boolean) extends SystemMessage
 
@@ -47,15 +50,15 @@ final case class ChatTitleChanged(messageId: Int, chat: Chat, date: Int, newChat
 final case class MigratedFromGroup(messageId: Int, chat: Chat, date: Int, migrateFromChatId: Long) extends SystemMessage
 
 final case class MigratedToSupergroup(messageId: Int, chat: Chat, date: Int, migrateToChatId: Long)
-    extends SystemMessage
+  extends SystemMessage
 
 final case class GroupChatCreated(messageId: Int, chat: Chat, date: Int, groupChatCreated: Boolean)
-    extends SystemMessage
+  extends SystemMessage
 
 final case class SupergroupCreated(messageId: Int, chat: Chat, date: Int, supergroupChatCreated: Boolean)
-    extends SystemMessage
+  extends SystemMessage
 
 final case class SuccessfulPaymentMessage(messageId: Int, chat: Chat, date: Int, successfulPayment: SuccessfulPayment)
-    extends SystemMessage
+  extends SystemMessage
 
 final case class WebsiteConnected(messageId: Int, chat: Chat, date: Int, connectedWebsite: String) extends SystemMessage

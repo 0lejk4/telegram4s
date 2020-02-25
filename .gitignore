@@ -3,3 +3,5 @@
 .vscode
 **/.bloop
 target
+node_modules
+build

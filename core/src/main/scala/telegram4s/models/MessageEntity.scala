@@ -4,16 +4,16 @@ import io.circe.Decoder
 import io.circe.generic.semiauto._
 
 /**
-  * Represents one special entity in a text message.
-  * For example, hashtags, usernames, URLs, etc.
-  */
+ * Represents one special entity in a text message.
+ * For example, hashtags, usernames, URLs, etc.
+ */
 sealed trait MessageEntity {
   def offset: Int
+
   def length: Int
 }
 
 object MessageEntity {
-  import io.circe.generic.auto._
 
   implicit val chatDecoder: Decoder[MessageEntity] = Decoder.instance[MessageEntity] { cursor =>
     cursor
@@ -70,4 +70,5 @@ object MessageEntity {
   case class TextMention(offset: Int, length: Int, user: User) extends MessageEntity
 
   case class Unknown(offset: Int, length: Int) extends MessageEntity
+
 }

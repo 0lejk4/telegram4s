@@ -1,10 +1,12 @@
 package telegram4s.models
 
+import io.circe.Encoder
+import io.circe.generic.semiauto.deriveEncoder
 import telegram4s.models.ParseMode.ParseMode
 
 /**
-  * Represents the content of a media message to be sent.
-  */
+ * Represents the content of a media message to be sent.
+ */
 sealed trait InputMedia extends Product {
   def files: List[(String, InputFile)] = List(`type` -> media)
 
@@ -13,33 +15,37 @@ sealed trait InputMedia extends Product {
   def `type`: String
 }
 
+object InputMedia {
+  implicit val encoder: Encoder[InputMedia] = deriveEncoder[InputMedia]
+}
+
 /**
-  * Represents a photo to be sent.
-  *
-  * @param type      Type of the result, must be photo
-  * @param media     Input media file
-  * @param caption   Caption of the photo to be sent, 0-200 characters
-  * @param parseMode Parse mode of captured text
-  *
-  */
+ * Represents a photo to be sent.
+ *
+ * @param type      Type of the result, must be photo
+ * @param media     Input media file
+ * @param caption   Caption of the photo to be sent, 0-200 characters
+ * @param parseMode Parse mode of captured text
+ *
+ */
 final case class InputMediaPhoto(media: InputFile,
                                  caption: Option[String] = None,
                                  parseMode: Option[ParseMode] = None,
                                  `type`: String = "photo")
-    extends InputMedia
+  extends InputMedia
 
 /**
-  * Represents a video to be sent.
-  *
-  * @param type              Type of the result, must be video
-  * @param media             Input media file
-  * @param caption           Caption of the video to be sent, 0-200 characters
-  * @param width             Video width
-  * @param height            Video height
-  * @param duration          Video duration
-  * @param parseMode         Parse mode of captured text
-  * @param supportsStreaming Pass True, if the uploaded video is suitable for streaming
-  */
+ * Represents a video to be sent.
+ *
+ * @param type              Type of the result, must be video
+ * @param media             Input media file
+ * @param caption           Caption of the video to be sent, 0-200 characters
+ * @param width             Video width
+ * @param height            Video height
+ * @param duration          Video duration
+ * @param parseMode         Parse mode of captured text
+ * @param supportsStreaming Pass True, if the uploaded video is suitable for streaming
+ */
 final case class InputMediaVideo(media: InputFile,
                                  caption: Option[String] = None,
                                  width: Option[Int] = None,
@@ -48,20 +54,20 @@ final case class InputMediaVideo(media: InputFile,
                                  parseMode: Option[ParseMode] = None,
                                  supportsStreaming: Option[Boolean] = None,
                                  `type`: String = "video")
-    extends InputMedia
+  extends InputMedia
 
 /**
-  * Represents an animation file (GIF or H.264/MPEG-4 AVC video without sound) to be sent.
-  *
-  * @param type      Type of the result, must be animation
-  * @param media     Input media file
-  * @param thumb     Thumbnail of the file sent
-  * @param caption   Caption of the animation to be sent, 0-200 characters
-  * @param parseMode Parse mode of captured text
-  * @param width     Animation width
-  * @param height    Animation height
-  * @param duration  Animation duration
-  */
+ * Represents an animation file (GIF or H.264/MPEG-4 AVC video without sound) to be sent.
+ *
+ * @param type      Type of the result, must be animation
+ * @param media     Input media file
+ * @param thumb     Thumbnail of the file sent
+ * @param caption   Caption of the animation to be sent, 0-200 characters
+ * @param parseMode Parse mode of captured text
+ * @param width     Animation width
+ * @param height    Animation height
+ * @param duration  Animation duration
+ */
 final case class InputMediaAnimation(media: InputFile,
                                      thumb: Option[InputFile] = None,
                                      caption: Option[String] = None,
@@ -70,20 +76,20 @@ final case class InputMediaAnimation(media: InputFile,
                                      height: Option[Int] = None,
                                      duration: Option[Int] = None,
                                      `type`: String = "animation")
-    extends InputMedia
+  extends InputMedia
 
 /**
-  * Represents an audio file to be treated as music to be sent.
-  *
-  * @param type      Type of the result, must be audio
-  * @param media     Input media file
-  * @param thumb     Thumbnail of the file sent
-  * @param caption   Caption of the audio to be sent, 0-200 characters
-  * @param parseMode Parse mode of input text
-  * @param duration  Duration of the audio in seconds
-  * @param performer Performer of the audio
-  * @param title     Title of the audio
-  */
+ * Represents an audio file to be treated as music to be sent.
+ *
+ * @param type      Type of the result, must be audio
+ * @param media     Input media file
+ * @param thumb     Thumbnail of the file sent
+ * @param caption   Caption of the audio to be sent, 0-200 characters
+ * @param parseMode Parse mode of input text
+ * @param duration  Duration of the audio in seconds
+ * @param performer Performer of the audio
+ * @param title     Title of the audio
+ */
 final case class InputMediaAudio(media: InputFile,
                                  thumb: Option[InputFile] = None,
                                  caption: Option[String] = None,
@@ -92,20 +98,20 @@ final case class InputMediaAudio(media: InputFile,
                                  performer: Option[String] = None,
                                  title: Option[String] = None,
                                  `type`: String = "audio")
-    extends InputMedia
+  extends InputMedia
 
 /**
-  * Represents a general file to be sent.
-  *
-  * @param type      String Type of the result, must be document
-  * @param media     Input media file
-  * @param thumb     Thumbnail of the file sent
-  * @param caption   Caption of the document to be sent, 0-200 characters
-  * @param parseMode Parse mode of input text
-  */
+ * Represents a general file to be sent.
+ *
+ * @param type      String Type of the result, must be document
+ * @param media     Input media file
+ * @param thumb     Thumbnail of the file sent
+ * @param caption   Caption of the document to be sent, 0-200 characters
+ * @param parseMode Parse mode of input text
+ */
 final case class InputMediaDocument(media: InputFile,
                                     thumb: Option[InputFile] = None,
                                     caption: Option[String] = None,
                                     parseMode: Option[ParseMode] = None,
                                     `type`: String = "document")
-    extends InputMedia
+  extends InputMedia

@@ -1,19 +1,19 @@
 package telegram4s.models
 
+import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
+import io.circe.{Decoder, Encoder}
 import telegram4s.models.ChatType.ChatType
-import io.circe.Decoder
-import io.circe.generic.auto._
-import io.circe.generic.semiauto.deriveDecoder
 
 sealed trait Chat {
   def id: Long
 }
 
 object Chat {
+  implicit val encoder: Encoder[Chat] = deriveEncoder[Chat]
 
   /**
-    * Decodes chat based on the `type` value of the input Json
-    */
+   * Decodes chat based on the `type` value of the input Json
+   */
   implicit val chatDecoder: Decoder[Chat] = Decoder.instance[Chat] { cursor =>
     cursor
       .get[ChatType]("type")
@@ -28,7 +28,7 @@ object Chat {
 }
 
 final case class PrivateChat(id: Long, username: Option[String], firstName: Option[String], lastName: Option[String])
-    extends Chat
+  extends Chat
 
 final case class Group(id: Long, title: Option[String]) extends Chat
 

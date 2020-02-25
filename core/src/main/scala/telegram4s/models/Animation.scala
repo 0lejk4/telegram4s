@@ -1,17 +1,20 @@
 package telegram4s.models
 
+import io.circe.Decoder
+import io.circe.generic.semiauto.deriveDecoder
+
 /**
-  * Represents an animation file (GIF or H.264/MPEG-4 AVC video without sound).
-  *
-  * @param fileId   Unique identifier for this file
-  * @param width    Video width as defined by sender
-  * @param height   Video height as defined by sender
-  * @param duration Duration of the video in seconds as defined by sender
-  * @param thumb    Animation thumbnail as defined by sender
-  * @param fileName Original animation filename as defined by sender
-  * @param mimeType Mime type of a file as defined by sender
-  * @param fileSize File size
-  */
+ * Represents an animation file (GIF or H.264/MPEG-4 AVC video without sound).
+ *
+ * @param fileId   Unique identifier for this file
+ * @param width    Video width as defined by sender
+ * @param height   Video height as defined by sender
+ * @param duration Duration of the video in seconds as defined by sender
+ * @param thumb    Animation thumbnail as defined by sender
+ * @param fileName Original animation filename as defined by sender
+ * @param mimeType Mime type of a file as defined by sender
+ * @param fileSize File size
+ */
 final case class Animation(fileId: String,
                            width: Int,
                            height: Int,
@@ -20,3 +23,7 @@ final case class Animation(fileId: String,
                            fileName: Option[String],
                            mimeType: Option[String],
                            fileSize: Option[Int])
+
+object Animation {
+  implicit val decoder: Decoder[Animation] = deriveDecoder[Animation]
+}

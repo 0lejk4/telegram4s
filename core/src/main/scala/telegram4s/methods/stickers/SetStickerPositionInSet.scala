@@ -1,6 +1,7 @@
 package telegram4s.methods.stickers
 
-import io.circe.generic.auto._
+import io.circe._
+import io.circe.generic.semiauto._
 import telegram4s.methods.TelegramMethod
 
 /**
@@ -14,6 +15,7 @@ import telegram4s.methods.TelegramMethod
 final case class SetStickerPositionInSet(sticker: String, position: Int)
 
 object SetStickerPositionInSet {
+  implicit val encoder: Encoder[SetStickerPositionInSet] = deriveEncoder[SetStickerPositionInSet]
   implicit val method: TelegramMethod[SetStickerPositionInSet, Boolean] =
     TelegramMethod[SetStickerPositionInSet, Boolean]("SetStickerPositionInSet")
 }

@@ -1,7 +1,6 @@
 package telegram4s.syntax
 
-import telegram4s.models._
-import telegram4s.models.{InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ReplyMarkup}
+import telegram4s.models.{InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ReplyMarkup, _}
 
 /**
  * Wrapper around a value of Option[ReplyMarkup].
@@ -48,5 +47,6 @@ object Keyboard {
   case object MessageReply extends Keyboard {
     def replyMarkup: Option[ReplyMarkup] = Some(ForceReply())
   }
+
 }
 

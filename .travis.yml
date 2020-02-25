@@ -13,7 +13,7 @@ jobs:
     - name: compile
       script: sbt compile
     - stage: release
-      script: sbt ci-release
+      script: sbt ci-release docs/docusaurusPublishGhpages
 
 cache:
   directories:

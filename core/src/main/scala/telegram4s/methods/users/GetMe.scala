@@ -1,6 +1,5 @@
 package telegram4s.methods.users
 
-import io.circe.generic.auto._
 import io.circe.{Encoder, Json}
 import telegram4s.methods.TelegramMethod
 import telegram4s.models.User

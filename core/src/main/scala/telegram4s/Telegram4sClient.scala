@@ -9,11 +9,11 @@ import io.circe.parser.parse
 import io.circe.{Decoder, Encoder}
 import fs2._
 import org.http4s.Uri.{Authority, RegName, Scheme}
+import org.http4s._
 import org.http4s.circe.{accumulatingJsonOf, jsonEncoderWithPrinterOf}
 import org.http4s.client.Client
 import org.http4s.client.blaze.BlazeClientBuilder
 import org.http4s.multipart.{Multipart, Part}
-import org.http4s._
 import telegram4s.Telegram4sClient.TelegramHost
 import telegram4s.marshalling._
 import telegram4s.marshalling.codecs._

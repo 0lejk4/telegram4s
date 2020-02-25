@@ -1,6 +1,8 @@
 package telegram4s.methods.games
 
+import io.circe._
 import io.circe.generic.auto._
+import io.circe.generic.semiauto._
 import telegram4s.methods.TelegramMethod
 import telegram4s.models.{ChatId, GameHighScore}
 
@@ -15,32 +17,33 @@ import telegram4s.models.{ChatId, GameHighScore}
  * Please note that this behavior is subject to change.
  *
  * Use methods in companion object in order to construct the value of this class.
-  *
-  * @param userId          Target user id
-  * @param chatId          Unique identifier for the target chat (or username of the target channel in the format @channelusername).
-  *                        Required if 'inlineMessageId' is not specified.
-  * @param messageId       Unique identifier of the sent message.
-  *                        Required if 'inlineMessageId' is not specified.
-  * @param inlineMessageId Identifier of the inline message.
-  *                        Required if 'chatId' and 'messageId' are not specified.
-  */
-final class GetGameHighScores private (val userId: Int,
-                                       val chatId: Option[ChatId] = None,
-                                       val messageId: Option[Int] = None,
-                                       val inlineMessageId: Option[String] = None)
+ *
+ * @param userId          Target user id
+ * @param chatId          Unique identifier for the target chat (or username of the target channel in the format @channelusername).
+ *                        Required if 'inlineMessageId' is not specified.
+ * @param messageId       Unique identifier of the sent message.
+ *                        Required if 'inlineMessageId' is not specified.
+ * @param inlineMessageId Identifier of the inline message.
+ *                        Required if 'chatId' and 'messageId' are not specified.
+ */
+final class GetGameHighScores private(val userId: Int,
+                                      val chatId: Option[ChatId] = None,
+                                      val messageId: Option[Int] = None,
+                                      val inlineMessageId: Option[String] = None)
 
 object GetGameHighScores {
+  implicit val encoder: Encoder[GetGameHighScores] = deriveEncoder[GetGameHighScores]
   implicit val method: TelegramMethod[GetGameHighScores, List[GameHighScore]] = TelegramMethod[GetGameHighScores, List[GameHighScore]]("GetGameHighScores")
 
   /**
-    * For the messages sent directly by the bot
-    */
+   * For the messages sent directly by the bot
+   */
   def direct(chatId: ChatId, messageId: Int, userId: Int): GetGameHighScores =
     new GetGameHighScores(userId, Some(chatId), Some(messageId))
 
   /**
-    * For the inlined messages sent via the bot
-    */
+   * For the inlined messages sent via the bot
+   */
   def inlined(inlineMessageId: String, userId: Int): GetGameHighScores =
     new GetGameHighScores(userId, inlineMessageId = Some(inlineMessageId))
 

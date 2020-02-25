@@ -1,6 +1,7 @@
 package telegram4s.methods.chats
 
-import io.circe.generic.auto._
+import io.circe._
+import io.circe.generic.semiauto._
 import telegram4s.methods.TelegramMethod
 import telegram4s.models.{ChatId, ChatMember}
 
@@ -19,5 +20,6 @@ import telegram4s.models.{ChatId, ChatMember}
 final case class GetChatAdministrators(chatId: ChatId)
 
 object GetChatAdministrators {
+  implicit val encoder: Encoder[GetChatAdministrators] = deriveEncoder[GetChatAdministrators]
   implicit val method: TelegramMethod[GetChatAdministrators, List[ChatMember]] = TelegramMethod[GetChatAdministrators, List[ChatMember]]("GetChatAdministrators")
 }

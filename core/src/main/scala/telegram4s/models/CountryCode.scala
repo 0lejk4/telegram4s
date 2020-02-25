@@ -3,11 +3,12 @@ package telegram4s.models
 import io.circe.{Decoder, Encoder}
 
 /**
-  * ISO 3166-1 alpha-2 country codes.
-  */
+ * ISO 3166-1 alpha-2 country codes.
+ */
 object CountryCode extends Enumeration {
   type CountryCode = Value
-  final class Country private[CountryCode] (val code: String, val englishName: String) extends Val(code)
+
+  final class Country private[CountryCode](val code: String, val englishName: String) extends Val(code)
 
   implicit def valueToCountry(v: Value): Country = v.asInstanceOf[Country]
 

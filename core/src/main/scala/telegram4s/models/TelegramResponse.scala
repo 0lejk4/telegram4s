@@ -1,9 +1,8 @@
 package telegram4s.models
 
-import telegram4s.marshalling.codecs._
 import io.circe.Decoder
 import io.circe.generic.semiauto.deriveDecoder
-import io.circe.generic.auto._
+import telegram4s.marshalling.codecs._
 
 /**
  * Telegram Bot API Response object

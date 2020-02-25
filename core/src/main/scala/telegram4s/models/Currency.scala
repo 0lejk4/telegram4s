@@ -3,23 +3,23 @@ package telegram4s.models
 import io.circe.{Decoder, Encoder}
 
 /**
-  * Parsed from [[https://core.telegram.org/bots/payments/currencies.json]].
-  */
+ * Parsed from [[https://core.telegram.org/bots/payments/currencies.json]].
+ */
 object Currency extends Enumeration {
   type Currency = Value
 
-  final class TelegramCurrency private[Currency] (val code: String,
-                                                  val title: String,
-                                                  val symbol: String,
-                                                  val native: String,
-                                                  val thousandsSep: String,
-                                                  val decimalSep: String,
-                                                  val symbolLeft: Boolean,
-                                                  val spaceBetween: Boolean,
-                                                  val exp: Int,
-                                                  val minAmount: Long,
-                                                  val maxAmount: Long)
-      extends Val(code)
+  final class TelegramCurrency private[Currency](val code: String,
+                                                 val title: String,
+                                                 val symbol: String,
+                                                 val native: String,
+                                                 val thousandsSep: String,
+                                                 val decimalSep: String,
+                                                 val symbolLeft: Boolean,
+                                                 val spaceBetween: Boolean,
+                                                 val exp: Int,
+                                                 val minAmount: Long,
+                                                 val maxAmount: Long)
+    extends Val(code)
 
   implicit def valueToCurrency(v: Value): TelegramCurrency = v.asInstanceOf[TelegramCurrency]
 

@@ -1,5 +1,7 @@
 package telegram4s.models.messages
 
+import io.circe.Decoder
+import io.circe.generic.semiauto.deriveDecoder
 import telegram4s.models.{Chat, MessageEntity, User}
 
 final case class TextMessage(messageId: Int,
@@ -17,4 +19,8 @@ final case class TextMessage(messageId: Int,
                              replyToMessage: Option[TelegramMessage] = None,
                              editDate: Option[Int] = None,
                              authorSignature: Option[String] = None)
-    extends UserMessage
+  extends UserMessage
+
+object TextMessage {
+  implicit val decoder: Decoder[TextMessage] = deriveDecoder[TextMessage]
+}

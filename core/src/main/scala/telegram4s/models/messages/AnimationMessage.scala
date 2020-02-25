@@ -1,5 +1,7 @@
 package telegram4s.models.messages
 
+import io.circe.Decoder
+import io.circe.generic.semiauto.deriveDecoder
 import telegram4s.models.{Animation, Chat, MessageEntity, User}
 
 final case class AnimationMessage(messageId: Int,
@@ -18,4 +20,8 @@ final case class AnimationMessage(messageId: Int,
                                   replyToMessage: Option[TelegramMessage] = None,
                                   editDate: Option[Int] = None,
                                   authorSignature: Option[String] = None)
-    extends UserMessage
+  extends UserMessage
+
+object AnimationMessage {
+  implicit val decoder: Decoder[AnimationMessage] = deriveDecoder[AnimationMessage]
+}
