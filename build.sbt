@@ -47,7 +47,8 @@ lazy val docs = project.in(file("./telegram4s-docs"))
   .settings(
     mdocVariables := Map(
       "VERSION" -> version.value
-    )
+    ),
+    skip in publish := true
   )
   .dependsOn(core)
   .enablePlugins(MdocPlugin, DocusaurusPlugin)
