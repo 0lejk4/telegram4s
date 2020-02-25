@@ -1,6 +1,7 @@
 package telegram4s.methods.stickers
 
-import io.circe.generic.auto._
+import io.circe._
+import io.circe.generic.semiauto._
 import telegram4s.methods.TelegramMethod
 
 /**
@@ -13,6 +14,7 @@ import telegram4s.methods.TelegramMethod
 final case class GetStickerSet(name: String)
 
 object GetStickerSet {
+  implicit val encoder: Encoder[GetStickerSet] = deriveEncoder[GetStickerSet]
   implicit val method: TelegramMethod[GetStickerSet, Boolean] =
     TelegramMethod[GetStickerSet, Boolean]("GetStickerSet")
 }

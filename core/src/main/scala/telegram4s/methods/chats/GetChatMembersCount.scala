@@ -1,6 +1,7 @@
 package telegram4s.methods.chats
 
-import io.circe.generic.auto._
+import io.circe._
+import io.circe.generic.semiauto._
 import telegram4s.methods.TelegramMethod
 import telegram4s.models.ChatId
 
@@ -15,5 +16,6 @@ import telegram4s.models.ChatId
 final case class GetChatMembersCount(chatId: ChatId)
 
 object GetChatMembersCount {
+  implicit val encoder: Encoder[GetChatMembersCount] = deriveEncoder[GetChatMembersCount]
   implicit val method: TelegramMethod[GetChatMembersCount, Int] = TelegramMethod[GetChatMembersCount, Int]("GetChatMembersCount")
 }

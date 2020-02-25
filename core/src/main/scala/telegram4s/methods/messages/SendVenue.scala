@@ -1,6 +1,7 @@
 package telegram4s.methods.messages
 
-import io.circe.generic.auto._
+import io.circe._
+import io.circe.generic.semiauto._
 import telegram4s.methods.TelegramMethod
 import telegram4s.models.messages.VenueMessage
 import telegram4s.models.{ChatId, ReplyMarkup}
@@ -36,6 +37,7 @@ final case class SendVenue(chatId: ChatId,
                            replyMarkup: Option[ReplyMarkup] = None)
 
 object SendVenue {
+  implicit val encoder: Encoder[SendVenue] = deriveEncoder[SendVenue]
   implicit val method: TelegramMethod[SendVenue, VenueMessage] =
     TelegramMethod[SendVenue, VenueMessage]("SendVenue")
 }

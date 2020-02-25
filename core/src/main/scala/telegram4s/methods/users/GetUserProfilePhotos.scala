@@ -1,6 +1,8 @@
 package telegram4s.methods.users
 
+import io.circe._
 import io.circe.generic.auto._
+import io.circe.generic.semiauto._
 import telegram4s.methods.TelegramMethod
 import telegram4s.models.UserProfilePhotos
 
@@ -16,6 +18,7 @@ import telegram4s.models.UserProfilePhotos
 final case class GetUserProfilePhotos(userId: Int, offset: Option[Int] = None, limit: Option[Int] = None)
 
 object GetUserProfilePhotos {
+  implicit val encoder: Encoder[GetUserProfilePhotos] = deriveEncoder[GetUserProfilePhotos]
   implicit val method: TelegramMethod[GetUserProfilePhotos, UserProfilePhotos] =
     TelegramMethod[GetUserProfilePhotos, UserProfilePhotos]("GetUserProfilePhotos")
 }

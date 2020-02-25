@@ -1,6 +1,8 @@
 package telegram4s.methods.stickers
 
+import io.circe._
 import io.circe.generic.auto._
+import io.circe.generic.semiauto._
 import telegram4s.methods.TelegramMethod
 import telegram4s.models.{File, InputFile}
 
@@ -9,14 +11,15 @@ import telegram4s.models.{File, InputFile}
  * and addStickerToSet methods (can be used multiple times).
  * Returns the uploaded File on success.
  *
- * @param userId       Integer User identifier of sticker file owner
- * @param pngSticker   InputFile Png image with the sticker, must be up to 512 kilobytes in size,
- *                     dimensions must not exceed 512px, and either width or height must be exactly 512px.
-  *                    [[https://core.telegram.org/bots/api#sending-files More info on Sending Files]]
-  */
+ * @param userId     Integer User identifier of sticker file owner
+ * @param pngSticker InputFile Png image with the sticker, must be up to 512 kilobytes in size,
+ *                   dimensions must not exceed 512px, and either width or height must be exactly 512px.
+ *                   [[https://core.telegram.org/bots/api#sending-files More info on Sending Files]]
+ */
 final case class UploadStickerFile(userId: Int, pngSticker: InputFile)
 
 object UploadStickerFile {
+  implicit val encoder: Encoder[UploadStickerFile] = deriveEncoder[UploadStickerFile]
   implicit val method: TelegramMethod[UploadStickerFile, File] =
     TelegramMethod[UploadStickerFile, File](
       name = "UploadStickerFile",

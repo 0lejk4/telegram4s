@@ -1,9 +1,8 @@
 package telegram4s.models
 
-import telegram4s.models.MemberStatus.MemberStatus
 import io.circe.Decoder
-import io.circe.generic.auto._
 import io.circe.generic.semiauto.deriveDecoder
+import telegram4s.models.MemberStatus.MemberStatus
 
 sealed trait ChatMember {
   def user: User
@@ -44,7 +43,7 @@ final case class ChatAdministrator(user: User,
                                    canPromoteMembers: Option[Boolean],
                                    canInviteUsers: Option[Boolean],
                                    canPinMessages: Option[Boolean])
-    extends ChatMember
+  extends ChatMember
 
 final case class RestrictedMember(user: User,
                                   untilDate: Option[Int],
@@ -56,4 +55,4 @@ final case class RestrictedMember(user: User,
                                   canSendMediaMessages: Option[Boolean],
                                   canSendOtherMessages: Option[Boolean],
                                   canAddWebPagePreviews: Option[Boolean])
-    extends ChatMember
+  extends ChatMember

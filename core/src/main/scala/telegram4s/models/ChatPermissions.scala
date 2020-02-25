@@ -1,11 +1,14 @@
 package telegram4s.models
 
+import io.circe._
+import io.circe.generic.semiauto._
+
 /**
-  * Describes actions that a non-administrator user is allowed to take in a chat.
-  *
-  * Unspecified parameters will be disabled, unless they are needed for enabling allowed actions.
-  * Example: specified canSendPolls will also enable canSendMessages option.
-  */
+ * Describes actions that a non-administrator user is allowed to take in a chat.
+ *
+ * Unspecified parameters will be disabled, unless they are needed for enabling allowed actions.
+ * Example: specified canSendPolls will also enable canSendMessages option.
+ */
 final case class ChatPermissions(canSendMessages: Option[Boolean] = None,
                                  canSendMediaMessages: Option[Boolean] = None,
                                  canSendPolls: Option[Boolean] = None,
@@ -16,6 +19,7 @@ final case class ChatPermissions(canSendMessages: Option[Boolean] = None,
                                  canPinMessages: Option[Boolean] = None)
 
 object ChatPermissions {
+  implicit val encoder: Encoder[ChatPermissions] = deriveEncoder[ChatPermissions]
 
   def canSendMessages: ChatPermissions = ChatPermissions(canSendMessages = Some(true))
 

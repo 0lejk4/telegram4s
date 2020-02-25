@@ -1,6 +1,7 @@
 package telegram4s.methods.messages
 
-import io.circe.generic.auto._
+import io.circe._
+import io.circe.generic.semiauto._
 import telegram4s.methods.TelegramMethod
 import telegram4s.models.ParseMode.ParseMode
 import telegram4s.models.messages.TextMessage
@@ -59,6 +60,7 @@ final case class SendMessage(chatId: ChatId,
                              replyMarkup: Option[ReplyMarkup] = None)
 
 object SendMessage {
+  implicit val encoder: Encoder[SendMessage] = deriveEncoder[SendMessage]
   implicit val method: TelegramMethod[SendMessage, TextMessage] =
     TelegramMethod[SendMessage, TextMessage]("SendMessage")
 }

@@ -1,6 +1,7 @@
 package telegram4s.methods.messages
 
-import io.circe.generic.auto._
+import io.circe._
+import io.circe.generic.semiauto._
 import telegram4s.methods.TelegramMethod
 import telegram4s.models.ParseMode.ParseMode
 import telegram4s.models.messages.PhotoMessage
@@ -34,6 +35,7 @@ final case class SendPhoto(chatId: ChatId,
                            replyMarkup: Option[ReplyMarkup] = None)
 
 object SendPhoto {
+  implicit val encoder: Encoder[SendPhoto] = deriveEncoder[SendPhoto]
   implicit val method: TelegramMethod[SendPhoto, PhotoMessage] =
     TelegramMethod[SendPhoto, PhotoMessage](
       name = "SendPhoto",

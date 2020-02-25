@@ -24,7 +24,7 @@ final case class SendMediaGroup(chatId: ChatId,
                                 replyToMessageId: Option[Int] = None)
 
 object SendMediaGroup {
-  import io.circe.generic.auto._
+
   implicit val encoder: Encoder[SendMediaGroup] = deriveEncoder[SendMediaGroup]
     .contramap[SendMediaGroup](
       s =>

@@ -1,5 +1,7 @@
 package telegram4s.models.messages
 
+import io.circe.Decoder
+import io.circe.generic.semiauto.deriveDecoder
 import telegram4s.models.{Chat, MessageEntity, User, Video}
 
 final case class VideoMessage(messageId: Int,
@@ -18,4 +20,8 @@ final case class VideoMessage(messageId: Int,
                               replyToMessage: Option[TelegramMessage] = None,
                               editDate: Option[Int] = None,
                               authorSignature: Option[String] = None)
-    extends UserMessage
+  extends UserMessage
+
+object VideoMessage {
+  implicit val decoder: Decoder[VideoMessage] = deriveDecoder[VideoMessage]
+}

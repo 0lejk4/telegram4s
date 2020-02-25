@@ -1,0 +1,13 @@
+{
+  "docs": {
+    "Getting Started": [
+      "getting_started"
+    ],
+    "Telegram Bot API": [
+      "telegram_bot_api"
+    ],
+    "Telegram API": [
+      "telegram_api"
+    ]
+  }
+}

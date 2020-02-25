@@ -1,8 +1,7 @@
 package telegram4s
 
-import io.circe._
-
 package object marshalling {
+
   implicit class CaseString(private val word: String) extends AnyVal {
 
     def camelCase: String =
@@ -27,4 +26,5 @@ package object marshalling {
         .toLowerCase
     }
   }
+
 }

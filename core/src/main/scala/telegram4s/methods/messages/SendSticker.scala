@@ -1,6 +1,7 @@
 package telegram4s.methods.messages
 
-import io.circe.generic.auto._
+import io.circe._
+import io.circe.generic.semiauto._
 import telegram4s.methods.TelegramMethod
 import telegram4s.models.messages.StickerMessage
 import telegram4s.models.{ChatId, InputFile, ReplyMarkup}
@@ -29,6 +30,7 @@ final case class SendSticker(chatId: ChatId,
                              replyMarkup: Option[ReplyMarkup] = None)
 
 object SendSticker {
+  implicit val encoder: Encoder[SendSticker] = deriveEncoder[SendSticker]
   implicit val method: TelegramMethod[SendSticker, StickerMessage] =
     TelegramMethod[SendSticker, StickerMessage](
       name = "SendSticker",

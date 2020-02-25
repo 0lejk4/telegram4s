@@ -1,6 +1,7 @@
 package telegram4s.methods.queries
 
-import io.circe.generic.auto._
+import io.circe._
+import io.circe.generic.semiauto._
 import telegram4s.methods.TelegramMethod
 import telegram4s.models.ShippingOption
 
@@ -29,6 +30,7 @@ final class AnswerShippingQuery private(val shippingQueryId: String,
                                         val errorMessage: Option[String] = None)
 
 object AnswerShippingQuery {
+  implicit val encoder: Encoder[AnswerShippingQuery] = deriveEncoder[AnswerShippingQuery]
   implicit val method: TelegramMethod[AnswerShippingQuery, Boolean] =
     TelegramMethod[AnswerShippingQuery, Boolean]("AnswerShippingQuery")
 

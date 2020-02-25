@@ -5,8 +5,8 @@ import io.circe.Decoder
 import io.circe.generic.semiauto._
 
 /**
-  * Contains information about why a request was unsuccessful.
-  */
+ * Contains information about why a request was unsuccessful.
+ */
 sealed trait ResponseParameters extends Product
 
 object ResponseParameters {
@@ -19,13 +19,13 @@ object ResponseParameters {
 }
 
 /**
-  * The group has been migrated to a supergroup with the specified identifier.
-  */
+ * The group has been migrated to a supergroup with the specified identifier.
+ */
 final case class ChatMigration(migrateToChatId: Long) extends ResponseParameters
 
 /**
-  * Flood control was exceeded.
-  *
-  * @param retryAfter The number of seconds left to wait before the request can be repeated
-  */
+ * Flood control was exceeded.
+ *
+ * @param retryAfter The number of seconds left to wait before the request can be repeated
+ */
 final case class ExceededFloodControl(retryAfter: Int) extends ResponseParameters

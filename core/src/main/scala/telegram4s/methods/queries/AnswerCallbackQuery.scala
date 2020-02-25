@@ -1,6 +1,7 @@
 package telegram4s.methods.queries
 
-import io.circe.generic.auto._
+import io.circe._
+import io.circe.generic.semiauto._
 import telegram4s.methods.TelegramMethod
 
 /**
@@ -12,31 +13,32 @@ import telegram4s.methods.TelegramMethod
  *
  * Alternatively, the user can be redirected to the specified Game URL.
  * For this option to work, you must first create a game for your bot via BotFather and accept the terms.
-  * Otherwise, you may use links like telegram.me/your_bot?start=XXXX that open your bot with a parameter.
-  *
-  * @param callbackQueryId Unique identifier for the query to be answered
-  * @param text            Text of the notification. 0-200 characters.
-  *                        If not specified, nothing will be shown to the user.
-  * @param showAlert       If true, an alert will be shown by the client instead
-  *                        of a notification at the top of the chat screen.
-  *                        Defaults to false.
-  * @param url             URL that will be opened by the user's client.
-  *                        If you have created a Game and accepted the conditions via @Botfather,
-  *                        specify the URL that opens your game.
-  *                        Note that this will only work if the query comes from a callback_game button.
-  *                        Otherwise, you may use links like telegram.me/your_bot?start=XXXX that open your bot with a parameter.
-  * @param cacheTime       The maximum amount of time in seconds that the result of the callback query may be cached client-side.
-  *                        Telegram apps will support caching starting in version 3.14.
-  *                        Defaults to 0.
-  *
-  */
-final class AnswerCallbackQuery private (val callbackQueryId: String,
-                                         val text: Option[String] = None,
-                                         val showAlert: Option[Boolean] = None,
-                                         val url: Option[String] = None,
-                                         val cacheTime: Option[Int] = None)
+ * Otherwise, you may use links like telegram.me/your_bot?start=XXXX that open your bot with a parameter.
+ *
+ * @param callbackQueryId Unique identifier for the query to be answered
+ * @param text            Text of the notification. 0-200 characters.
+ *                        If not specified, nothing will be shown to the user.
+ * @param showAlert       If true, an alert will be shown by the client instead
+ *                        of a notification at the top of the chat screen.
+ *                        Defaults to false.
+ * @param url             URL that will be opened by the user's client.
+ *                        If you have created a Game and accepted the conditions via @Botfather,
+ *                        specify the URL that opens your game.
+ *                        Note that this will only work if the query comes from a callback_game button.
+ *                        Otherwise, you may use links like telegram.me/your_bot?start=XXXX that open your bot with a parameter.
+ * @param cacheTime       The maximum amount of time in seconds that the result of the callback query may be cached client-side.
+ *                        Telegram apps will support caching starting in version 3.14.
+ *                        Defaults to 0.
+ *
+ */
+final class AnswerCallbackQuery private(val callbackQueryId: String,
+                                        val text: Option[String] = None,
+                                        val showAlert: Option[Boolean] = None,
+                                        val url: Option[String] = None,
+                                        val cacheTime: Option[Int] = None)
 
 object AnswerCallbackQuery {
+  implicit val encoder: Encoder[AnswerCallbackQuery] = deriveEncoder[AnswerCallbackQuery]
   implicit val method: TelegramMethod[AnswerCallbackQuery, Boolean] =
     TelegramMethod[AnswerCallbackQuery, Boolean]("AnswerCallbackQuery")
 
@@ -53,9 +55,9 @@ object AnswerCallbackQuery {
     new AnswerCallbackQuery(queryId, text = Some(text), showAlert = Some(true))
 
   /**
-    * Answer which redirects the user to the provided address.
-    * Example: you can redirect a user to your bot using `telegram.me/your_bot?start=XXXX`
-    */
+   * Answer which redirects the user to the provided address.
+   * Example: you can redirect a user to your bot using `telegram.me/your_bot?start=XXXX`
+   */
   def redirect(queryId: String, url: String): AnswerCallbackQuery =
     new AnswerCallbackQuery(queryId, url = Some(url))
 

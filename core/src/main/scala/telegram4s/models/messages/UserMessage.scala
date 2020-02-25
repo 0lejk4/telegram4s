@@ -1,10 +1,8 @@
 package telegram4s.models.messages
 
-import telegram4s.models.{Chat, User}
 import cats.syntax.functor._
 import io.circe.Decoder
-import io.circe.generic.auto._
-import io.circe.generic.semiauto.deriveDecoder
+import telegram4s.models.{Chat, User}
 
 trait UserMessage extends TelegramMessage {
 
@@ -33,20 +31,20 @@ object UserMessage {
 
   implicit val userMessageDecoder: Decoder[UserMessage] =
     List[Decoder[UserMessage]](
-      deriveDecoder[AnimationMessage].widen,
-      deriveDecoder[AudioMessage].widen,
-      deriveDecoder[ContactMessage].widen,
-      deriveDecoder[DocumentMessage].widen,
-      deriveDecoder[GameMessage].widen,
-      deriveDecoder[InvoiceMessage].widen,
-      deriveDecoder[LocationMessage].widen,
-      deriveDecoder[PhotoMessage].widen,
-      deriveDecoder[PollMessage].widen,
-      deriveDecoder[StickerMessage].widen,
-      deriveDecoder[TextMessage].widen,
-      deriveDecoder[VenueMessage].widen,
-      deriveDecoder[VideoMessage].widen,
-      deriveDecoder[VideoNoteMessage].widen,
-      deriveDecoder[VoiceMessage].widen
+      Decoder[AnimationMessage].widen,
+      Decoder[AudioMessage].widen,
+      Decoder[ContactMessage].widen,
+      Decoder[DocumentMessage].widen,
+      Decoder[GameMessage].widen,
+      Decoder[InvoiceMessage].widen,
+      Decoder[LocationMessage].widen,
+      Decoder[PhotoMessage].widen,
+      Decoder[PollMessage].widen,
+      Decoder[StickerMessage].widen,
+      Decoder[TextMessage].widen,
+      Decoder[VenueMessage].widen,
+      Decoder[VideoMessage].widen,
+      Decoder[VideoNoteMessage].widen,
+      Decoder[VoiceMessage].widen
     ).reduceLeft(_.or(_))
 }

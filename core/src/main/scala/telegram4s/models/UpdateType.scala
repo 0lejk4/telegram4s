@@ -3,8 +3,8 @@ package telegram4s.models
 import io.circe.Encoder
 
 /**
-  * Provides grouped update types to filter updates (e.g. message related, payments related).
-  */
+ * Provides grouped update types to filter updates (e.g. message related, payments related).
+ */
 object UpdateType extends Enumeration {
   type UpdateType = Value
   val Message, EditedMessage, ChannelPost, EditedChannelPost, InlineQuery, ChosenInlineResult, CallbackQuery,

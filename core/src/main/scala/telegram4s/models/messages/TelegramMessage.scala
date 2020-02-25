@@ -1,17 +1,18 @@
 package telegram4s.models.messages
 
-import telegram4s.models.Chat
 import cats.syntax.functor._
 import io.circe.Decoder
+import telegram4s.models.Chat
 
 trait TelegramMessage {
   def messageId: Int
+
   def chat: Chat
+
   def date: Int
 }
 
 object TelegramMessage {
-
   implicit val telegramMessageDecoder: Decoder[TelegramMessage] =
     List[Decoder[TelegramMessage]](
       UserMessage.userMessageDecoder.widen,

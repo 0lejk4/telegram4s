@@ -4,11 +4,12 @@ import io.circe.Encoder
 import io.circe.syntax._
 
 /**
-  * Represents the id of a chat.
-  * This may be the numeric id or channel username in the format `@channelusername`.
-  */
+ * Represents the id of a chat.
+ * This may be the numeric id or channel username in the format `@channelusername`.
+ */
 sealed trait ChatId {
   def isChannel: Boolean
+
   def isChat: Boolean = !isChannel
 }
 

@@ -1,11 +1,10 @@
 package telegram4s.models
 
-import telegram4s.marshalling.codecs._
-import telegram4s.models.messages.TelegramMessage
 import cats.syntax.functor._
 import io.circe.Decoder
-import io.circe.generic.auto._
 import io.circe.generic.semiauto.deriveDecoder
+import telegram4s.marshalling.codecs._
+import telegram4s.models.messages.TelegramMessage
 
 sealed trait Update {
   def updateId: Long

@@ -1,6 +1,6 @@
 package telegram4s
 
-import telegram4s.models.{CallbackQuery, Chat, InlineQuery, PreCheckoutQuery, ShippingQuery}
+import telegram4s.models._
 import telegram4s.models.messages.{LocationMessage, PollMessage, TelegramMessage}
 
 import scala.language.implicitConversions

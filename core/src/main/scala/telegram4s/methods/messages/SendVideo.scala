@@ -1,6 +1,7 @@
 package telegram4s.methods.messages
 
-import io.circe.generic.auto._
+import io.circe._
+import io.circe.generic.semiauto._
 import telegram4s.methods.TelegramMethod
 import telegram4s.models.ParseMode.ParseMode
 import telegram4s.models.messages.VideoMessage
@@ -42,6 +43,7 @@ final case class SendVideo(chatId: ChatId,
                            replyMarkup: Option[ReplyMarkup] = None)
 
 object SendVideo {
+  implicit val encoder: Encoder[SendVideo] = deriveEncoder[SendVideo]
   implicit val method: TelegramMethod[SendVideo, VideoMessage] =
     TelegramMethod[SendVideo, VideoMessage](
       name = "SendVideo",
