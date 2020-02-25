@@ -1,22 +1,28 @@
 # Telegram4s
-
+[![Build Status](https://travis-ci.org/0lejk4/telegram4s.svg?branch=master)](https://travis-ci.org/0lejk4/telegram4s)
+[![Latest version](https://index.scala-lang.org/0lejk4/telegram4s/telegram4s-core/latest.svg?color=orange&v=1)](https://index.scala-lang.org/0lejk4/telegram4s/telegram4s-core)
 ## Description
 
 Functional Telegram Bot Framework for Scala based on http4s.
 Written in a tagless final, so you can plug your preferred concurrency abstraction.
 
+## Documenation
+You can start using telegram4s with help of Telegram4s [microsite](https://0lejk4.github.io/telegram4s/)
+
 ## Example
 
 ```scala
-val program = 
-    Telegram4sClient[IO](token) // Bot Api Client
-      .use { client =>
-        Telegram4s(client) // Bot Builder
-          .onUpdate(println) // Add update handler
-          .poll() // Starts polling
+Telegram4sClient[Task](token)
+  .use { implicit client =>
+    Telegram4sBot.poll()
+      .evalTap { update =>
+        putStrLn(update.toString)
       }
-      .either
-      .map(_.fold(_ => 1, _ => 0))
+      .compile
+      .drain
+  }
+  .either
+  .map(_.fold(_ => 1, _ => 0))
 ```
 
 ## Installation
